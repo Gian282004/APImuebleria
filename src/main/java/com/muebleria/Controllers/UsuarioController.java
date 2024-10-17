@@ -11,12 +11,15 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/usuarios")
-@CrossOrigin(origins = "*")
 public class UsuarioController {
 
-    @Autowired
-    private UsuarioService usuarioService;
 
+    private UsuarioService usuarioService;
+    @Autowired
+    public UsuarioController(UsuarioService usuarioService)
+    {
+        this.usuarioService=usuarioService;
+    }
     @GetMapping
     public List<Usuario> listarUsuarios() {
 
