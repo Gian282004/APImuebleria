@@ -1,10 +1,10 @@
-package com.muebleria.models;
+package com.muebleria.entitys;
 
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "Ventas")
-public class Venta {
+public class VentaEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,16 +15,16 @@ public class Venta {
 
     @OneToOne
     @JoinColumn(name = "id_carrito", nullable = false)
-    private Carrito carrito;
+    private CarritoEntity carrito;
 
-    public Venta(Integer id_pedido, String estadoPedido, Carrito carrito) {
+    public VentaEntity(Integer id_pedido, String estadoPedido, CarritoEntity carrito) {
         this.id_pedido = id_pedido;
         this.estadoPedido = estadoPedido;
         this.carrito = carrito;
     }
 
     ///constructor
-    public Venta() {
+    public VentaEntity() {
         // Constructor por defecto necesario para Hibernate
     }
 
@@ -47,11 +47,11 @@ public class Venta {
         this.estadoPedido = estadoPedido;
     }
 
-    public Carrito getCarrito() {
+    public CarritoEntity getCarrito() {
         return carrito;
     }
 
-    public void setCarrito(Carrito carrito) {
+    public void setCarrito(CarritoEntity carrito) {
         this.carrito = carrito;
     }
 }
