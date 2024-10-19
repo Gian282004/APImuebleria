@@ -1,7 +1,10 @@
 package com.muebleria.Controllers;
 
+import com.muebleria.DTO.VentaRequest;
+import com.muebleria.Mappers.VentaMapper;
 import com.muebleria.Services.VentaService;
 import com.muebleria.models.Venta;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,8 +16,15 @@ import java.util.Optional;
 @CrossOrigin(origins = "*")
 public class VentaController {
 
+    private final VentaMapper ventaMapper;
+    private final VentaService ventaService;
     @Autowired
-    private VentaService ventaService;
+
+    public VentaController(VentaService ventaService, VentaMapper ventaMapper)
+    {
+        this.ventaService=ventaService;
+        this.ventaMapper=ventaMapper;
+    }
 
     @GetMapping
     public List<Venta> listarVentas() {
@@ -22,27 +32,27 @@ public class VentaController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Venta> obtenerVentaPorId(@PathVariable Integer id) {
-        Optional<Venta> venta = ventaService.obtenerPorId(id);
-        if (venta.isPresent()) {
-            return ResponseEntity.ok(venta.get());
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public Optional<Venta> obtenerVentaPorId(@PathVariable Integer id) {
+
+               //Esto deberia estar dentro de un if que confirme que exista, abajo se explica porque no se puede
+        return  ventaService.obtenerPorId(id);
+
+
+             //Aca se deberia devolver un not found pero se necesita que sea de tipo ResponseEntity y es Optional
+
     }
 
     @PostMapping
-    public Venta crearVenta(@RequestBody Venta venta) {
-        return ventaService.guardar(venta);
+    public Venta crearVenta(@Valid @RequestBody VentaRequest venta) {
+
+        return ventaService.guardar(ventaMapper.toModel(venta));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Venta> actualizarVenta(@PathVariable Integer id, @RequestBody Venta detallesVenta) {
+    public ResponseEntity<Venta> actualizarVenta(@PathVariable Integer id, @Valid @RequestBody VentaRequest detallesVenta) {
         Optional<Venta> ventaOpt = ventaService.obtenerPorId(id);
         if (ventaOpt.isPresent()) {
-            Venta venta = ventaOpt.get();
-            venta.setEstadoPedido(detallesVenta.getEstadoPedido());
-            venta.setCarrito(detallesVenta.getCarrito());
+            Venta venta = ventaMapper.toModel(detallesVenta);
             ventaService.guardar(venta);
             return ResponseEntity.ok(venta);
         } else {

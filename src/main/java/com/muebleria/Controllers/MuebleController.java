@@ -1,7 +1,11 @@
 package com.muebleria.Controllers;
 
+import com.muebleria.DTO.MuebleRequest;
+import com.muebleria.Mappers.MuebleMapper;
 import com.muebleria.Services.MuebleService;
+
 import com.muebleria.models.Mueble;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +18,14 @@ import java.util.Optional;
 public class MuebleController {
 
     @Autowired
-    private MuebleService muebleService;
+    private final MuebleService muebleService;
+    private final MuebleMapper muebleMapper;
+
+    public MuebleController(MuebleService muebleService, MuebleMapper muebleMapper)
+    {
+        this.muebleService=muebleService;
+        this.muebleMapper=muebleMapper;
+    }
 
     @GetMapping
     public List<Mueble> listarMuebles() {
@@ -22,29 +33,24 @@ public class MuebleController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Mueble> obtenerMueblePorId(@PathVariable Integer id) {
-        Optional<Mueble> mueble = muebleService.obtenerPorId(id);
-        if (mueble.isPresent()) {
-            return ResponseEntity.ok(mueble.get());
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public Optional<Mueble> obtenerMueblePorId(@PathVariable Integer id) {
+        //Esto deberia estar dentro de un if que confirme que exista, abajo se explica porque no se puede
+        return  muebleService.obtenerPorId(id);
+
+
+        //Aca se deberia devolver un not found pero se necesita que sea de tipo ResponseEntity y es Optional
     }
 
     @PostMapping
-    public Mueble crearMueble(@RequestBody Mueble mueble) {
+    public Mueble crearMueble(@Valid @RequestBody Mueble mueble) {
         return muebleService.guardar(mueble);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Mueble> actualizarMueble(@PathVariable Integer id, @RequestBody Mueble detallesMueble) {
+    public ResponseEntity<Mueble> actualizarMueble(@PathVariable Integer id, @Valid @RequestBody MuebleRequest detallesMueble) {
         Optional<Mueble> muebleOpt = muebleService.obtenerPorId(id);
         if (muebleOpt.isPresent()) {
-            Mueble mueble = muebleOpt.get();
-            mueble.setMedida(detallesMueble.getMedida());
-            mueble.setPrecio(detallesMueble.getPrecio());
-            mueble.setStock(detallesMueble.getStock());
-            mueble.setDescripcion(detallesMueble.getDescripcion());
+            Mueble mueble = muebleMapper.toModel(detallesMueble);
             muebleService.guardar(mueble);
             return ResponseEntity.ok(mueble);
         } else {

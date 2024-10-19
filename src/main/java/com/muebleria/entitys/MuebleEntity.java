@@ -15,6 +15,7 @@ public class MuebleEntity {
     @Column(nullable = false)
     private double precio;
 
+    @Column(nullable = false)
     private Integer stock;
 
     @Column (columnDefinition = "TEXT")

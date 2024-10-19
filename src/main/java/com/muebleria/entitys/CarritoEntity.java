@@ -3,6 +3,7 @@ package com.muebleria.entitys;
 import jakarta.persistence.*;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 @Entity
 @Table (name = "carrito")
@@ -14,21 +15,21 @@ public class CarritoEntity {
 
     @ManyToOne
     @JoinColumn(name = "id_usuario", nullable = false)
-     private Usuario usuario;
+     private UsuarioEntity usuario;
 
     @ManyToOne
     @JoinColumn(name = "id_mueble", nullable = false)
     private MuebleEntity mueble;
 
-    private Float precioTotal;
+    private double precioTotal;
 
     @Temporal(TemporalType.DATE)
     @Column(nullable = false)
-    private Date fechaCarrito;
+    private LocalDate fechaCarrito;
 
    ///constructor
 
-    public CarritoEntity(Integer id_carrito, Usuario usuario, MuebleEntity mueble, Float precioTotal, Date fechaCarrito) {
+    public CarritoEntity(Integer id_carrito, UsuarioEntity usuario, MuebleEntity mueble, double precioTotal, LocalDate fechaCarrito) {
         this.id_carrito = id_carrito;
         this.usuario = usuario;
         this.mueble = mueble;
@@ -50,11 +51,11 @@ public class CarritoEntity {
         this.id_carrito = id_carrito;
     }
 
-    public Usuario getUsuario() {
+    public UsuarioEntity getUsuario() {
         return usuario;
     }
 
-    public void setUsuario(Usuario usuario) {
+    public void setUsuario(UsuarioEntity usuario) {
         this.usuario = usuario;
     }
 
@@ -66,7 +67,7 @@ public class CarritoEntity {
         this.mueble = mueble;
     }
 
-    public Float getPrecioTotal() {
+    public double getPrecioTotal() {
         return precioTotal;
     }
 
@@ -74,11 +75,11 @@ public class CarritoEntity {
         this.precioTotal = precioTotal;
     }
 
-    public Date getFechaCarrito() {
+    public LocalDate getFechaCarrito() {
         return fechaCarrito;
     }
 
-    public void setFechaCarrito(Date fechaCarrito) {
+    public void setFechaCarrito(LocalDate fechaCarrito) {
         this.fechaCarrito = fechaCarrito;
     }
 }

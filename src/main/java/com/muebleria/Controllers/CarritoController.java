@@ -1,8 +1,12 @@
 package com.muebleria.Controllers;
 
 
+import com.muebleria.DTO.CarritoRequest;
+import com.muebleria.Mappers.CarritoMapper;
 import com.muebleria.Services.CarritoService;
+
 import com.muebleria.models.Carrito;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,8 +18,17 @@ import java.util.Optional;
 @CrossOrigin(origins = "*")
 public class CarritoController {
 
+
+    private final CarritoService carritoService;
+    private final CarritoMapper carritoMapper;
+
     @Autowired
-    private CarritoService carritoService;
+    public CarritoController(CarritoService carritoService, CarritoMapper carritoMapper)
+    {
+        this.carritoService=carritoService;
+        this.carritoMapper=carritoMapper;
+    }
+
 
     @GetMapping
     public List<Carrito> listarCarritos() {
@@ -23,29 +36,24 @@ public class CarritoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Carrito> obtenerCarritoPorId(@PathVariable Integer id) {
-        Optional<Carrito> carrito = carritoService.obtenerPorId(id);
-        if (carrito.isPresent()) {
-            return ResponseEntity.ok(carrito.get());
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public Optional<Carrito> obtenerCarritoPorId(@PathVariable Integer id) {
+        //Esto deberia estar dentro de un if que confirme que exista, abajo se explica porque no se puede
+        return  carritoService.obtenerPorId(id);
+
+
+        //Aca se deberia devolver un not found pero se necesita que sea de tipo ResponseEntity y es Optional
     }
 
     @PostMapping
-    public Carrito crearCarrito(@RequestBody Carrito carrito) {
-        return carritoService.guardar(carrito);
+    public Carrito crearCarrito(@Valid @RequestBody CarritoRequest carrito) {
+        return carritoService.guardar(carritoMapper.ToModel(carrito));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Carrito> actualizarCarrito(@PathVariable Integer id, @RequestBody Carrito detallesCarrito) {
+    public ResponseEntity<Carrito> actualizarCarrito(@PathVariable Integer id, @Valid @RequestBody CarritoRequest detallesCarrito) {
         Optional<Carrito> carritoOpt = carritoService.obtenerPorId(id);
         if (carritoOpt.isPresent()) {
-            Carrito carrito = carritoOpt.get();
-            carrito.setUsuario(detallesCarrito.getUsuario());
-            carrito.setMueble(detallesCarrito.getMueble());
-            carrito.setPrecioTotal(detallesCarrito.getPrecioTotal());
-            carrito.setFechaCarrito(detallesCarrito.getFechaCarrito());
+            Carrito carrito = carritoMapper.ToModel(detallesCarrito);
             carritoService.guardar(carrito);
             return ResponseEntity.ok(carrito);
         } else {

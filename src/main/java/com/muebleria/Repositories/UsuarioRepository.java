@@ -1,12 +1,12 @@
 package com.muebleria.Repositories;
 
-import com.muebleria.models.Usuario;
+import com.muebleria.entitys.UsuarioEntity;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
+public interface UsuarioRepository extends JpaRepository<UsuarioEntity, Integer> {
     /// Método para encontrar usuario por email
-    Usuario findByEmail(String email);
+    UsuarioEntity findByEmail(String email);
 }
