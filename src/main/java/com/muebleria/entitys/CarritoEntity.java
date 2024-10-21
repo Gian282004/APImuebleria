@@ -18,7 +18,7 @@ public class CarritoEntity {
      private UsuarioEntity usuario;
 
     @ManyToOne
-    @JoinColumn(name = "id_mueble", nullable = false)
+    @JoinColumn(name = "id_producto", nullable = false)
     private MuebleEntity mueble;
 
     private double precioTotal;
