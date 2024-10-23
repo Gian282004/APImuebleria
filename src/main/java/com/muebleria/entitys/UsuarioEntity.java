@@ -9,8 +9,8 @@ public class UsuarioEntity {
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Integer id_usuario;
 
-    @Column ( name = "nombreUsuario",  nullable = false,length = 40)
-    private String nombreUsuario;
+    @Column ( name = "nombre_usuario",  nullable = false,length = 40)
+    private String nombre_usuario;
 
     @Column (length = 50,nullable = false)
     private String contrasenia;
@@ -19,9 +19,9 @@ public class UsuarioEntity {
     private String email;
 
     ///constructor
-    public UsuarioEntity(Integer id_usuario, String nombreUsuario, String contrasenia, String email) {
+    public UsuarioEntity(Integer id_usuario, String nombre_usuario, String contrasenia, String email) {
         this.id_usuario = id_usuario;
-        this.nombreUsuario = nombreUsuario;
+        this.nombre_usuario = nombre_usuario;
         this.contrasenia = contrasenia;
         this.email = email;
     }
@@ -36,11 +36,11 @@ public class UsuarioEntity {
 
 
     public String getNombreUsuario() {
-        return nombreUsuario;
+        return nombre_usuario;
     }
 
     public void setNombreUsuario(String nombreUsuario) {
-        this.nombreUsuario = nombreUsuario;
+        this.nombre_usuario = nombre_usuario;
     }
 
     public String getContrasenia() {

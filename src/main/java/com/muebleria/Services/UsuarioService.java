@@ -5,13 +5,14 @@ import com.muebleria.Repositories.UsuarioRepository;
 import com.muebleria.entitys.UsuarioEntity;
 import com.muebleria.entitys.VentaEntity;
 import com.muebleria.models.Usuario;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
+@Transactional
 @Service
 public class UsuarioService {
 

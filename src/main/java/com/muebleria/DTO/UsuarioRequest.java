@@ -2,6 +2,7 @@ package com.muebleria.DTO;
 
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.*;
 import jakarta.validation.constraints.NotNull;
 
@@ -11,7 +12,7 @@ public class UsuarioRequest {
     @Schema(description = "Nombre completo del usuario", example = "Mai Prueba")
     @NotNull
     @Size(min = 3, max = 20, message = "El nombre del usuario debe tener entre 3 y 20 caracteres")
-    private String nombre;
+    private String nombre_usuario;
 
     @Schema(description = "Contraseña del usuario", example = "contraseña123")
     @NotNull
@@ -23,13 +24,13 @@ public class UsuarioRequest {
     @Email
     private String email;
     @Schema(description = "Edad del usuario", example = "34")
-    @NotNull
+
     @Min(18)
     @Max(99)
     private int edad;
 
-    public String getNombre() {
-        return nombre;
+    public String getNombre_usuario() {
+        return nombre_usuario;
     }
 
     public String getEmail() {

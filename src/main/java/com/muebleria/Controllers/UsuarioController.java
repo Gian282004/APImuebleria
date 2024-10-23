@@ -1,5 +1,5 @@
 package com.muebleria.Controllers;
-
+import com.muebleria.handler.GlobalExceptionHandler;
 import com.muebleria.DTO.UsuarioRequest;
 import com.muebleria.Mappers.UsuarioMapper;
 import com.muebleria.Services.UsuarioService;
@@ -15,7 +15,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/usuarios")
-public class UsuarioController {
+public class UsuarioController{
 
 
     private final UsuarioService usuarioService;
@@ -46,13 +46,14 @@ public class UsuarioController {
     @PostMapping
     public ResponseEntity<Usuario> crearUsuario( @Valid  @RequestBody UsuarioRequest usuario) {
         try {
-            Usuario Prueba=new Usuario("Gian", "GIAN1234", "Gian@gmail.com");
-            Usuario usuarioGuardado = usuarioService.guardar(Prueba);
-         return ResponseEntity.status(HttpStatus.CREATED).body(usuarioGuardado);
+            Usuario usuarioGuardado = usuarioService.guardar(usuarioMapper.toModel(usuario));
+            return ResponseEntity.status(HttpStatus.CREATED).body(usuarioGuardado);
         } catch (Exception e) {
-           throw e;
+            System.out.println(e.getMessage());
+            throw e;
         }
     }
+
     @PutMapping("/{id}")
     public ResponseEntity<Usuario> actualizarUsuario(@PathVariable Integer id, @Valid  @RequestBody UsuarioRequest detallesUsuario) {
         Optional<Usuario> usuarioOpt = usuarioService.obtenerPorId(id);

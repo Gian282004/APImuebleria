@@ -10,7 +10,7 @@ public class UsuarioMapper {
 
     public Usuario toModel(UsuarioRequest user)
     {
-        Usuario userModel=new Usuario(user.getNombre(), user.getContrasenia(), user.getEmail());
+        Usuario userModel=new Usuario(user.getNombre_usuario(), user.getContrasenia(), user.getEmail());
         return userModel;
     }
     public Usuario toModel(UsuarioEntity user)
@@ -24,4 +24,12 @@ public class UsuarioMapper {
         UsuarioEntity user=new UsuarioEntity(userModel.getId(), userModel.getNombre(), userModel.getContrasenia(), userModel.getEmail());
         return user;
     }
+    public UsuarioEntity toentIty(Usuario userModel) {
+        UsuarioEntity user = new UsuarioEntity();
+        user.setNombreUsuario(userModel.getNombre()); // Asegúrate de que este método se llame correctamente
+        user.setContrasenia(userModel.getContrasenia());
+        user.setEmail(userModel.getEmail());
+        return user;
+    }
+
 }
