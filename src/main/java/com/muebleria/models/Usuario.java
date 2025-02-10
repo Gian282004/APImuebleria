@@ -2,21 +2,28 @@ package com.muebleria.models;
 
 public class Usuario {
     private Integer id;
-    private String nombre;
+    private String username;
     private String contrasenia;
+    private String nombre;
     private String email;
+    private String phone;
 
-    public Usuario(Integer id, String nombre, String contrasenia, String email) {
+    public Usuario(Integer id, String username, String contrasenia, String nombre, String email, String phone) {
         this.id = id;
-        this.nombre = nombre;
+        this.username = username;
         this.contrasenia = contrasenia;
+        this.nombre=nombre;
         this.email = email;
+        this.phone=phone;
     }
-    public Usuario(String nombre, String contrasenia, String email) {
-        this.nombre = nombre;
+    public Usuario(String username, String contrasenia, String nombre, String email, String phone) {
+        this.username = username;
         this.contrasenia = contrasenia;
+        this.nombre=nombre;
         this.email = email;
+        this.phone=phone;
     }
+
 
     public Integer getId() {
         return id;
@@ -26,20 +33,12 @@ public class Usuario {
         this.id = id;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getContrasenia() {
-        return contrasenia;
-    }
-
-    public void setContrasenia(String contrasenia) {
-        this.contrasenia = contrasenia;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getEmail() {
@@ -50,13 +49,39 @@ public class Usuario {
         this.email = email;
     }
 
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getContrasenia() {
+        return contrasenia;
+    }
+
+    public void setContrasenia(String contrasenia) {
+        this.contrasenia = contrasenia;
+    }
+
     @Override
     public String toString() {
         return "Usuario{" +
                 "id=" + id +
-                ", nombre='" + nombre + '\'' +
+                ", username='" + username + '\'' +
                 ", contrasenia='" + contrasenia + '\'' +
+                ", nombre='" + nombre + '\'' +
                 ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
                 '}';
     }
 }

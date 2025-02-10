@@ -20,6 +20,8 @@ public class Mueble {
         this.stock = stock;
         this.descripcion = descripcion;
     }
+    public Mueble()
+    {}
 
     public Integer getId() {
         return id;

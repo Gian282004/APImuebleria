@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/muebles")
+@RequestMapping("/muebles")
 @CrossOrigin(origins = "*") // Permitir solicitudes desde cualquier origen (configura según tus necesidades)
 public class MuebleController {
 

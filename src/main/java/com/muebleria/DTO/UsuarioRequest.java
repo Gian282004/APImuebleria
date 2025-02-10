@@ -9,40 +9,62 @@ import jakarta.validation.constraints.NotNull;
 
 @Schema(description = "Payload para la creación de un usuario")
 public class UsuarioRequest {
-    @Schema(description = "Nombre completo del usuario", example = "Mai Prueba")
+    @Schema(description = "username del usuario", example = "Gian")
     @NotNull
     @Size(min = 3, max = 20, message = "El nombre del usuario debe tener entre 3 y 20 caracteres")
-    private String nombre_usuario;
-
+    private String username;
     @Schema(description = "Contraseña del usuario", example = "contraseña123")
     @NotNull
-    @Hidden
     @Size(min = 8, max = 20, message = "la contrasenia del usuario debe tener entre 8 y 20 caracteres")
     private String contrasenia;
-    @Schema(description = "Correo electrónico del usuario", example = "mai@example.com")
+    @Schema(description = "nombre del usuario", example = "Gian Luka Fernandez")
     @NotNull
+    private String nombre;
+    @Schema(description = "Correo electrónico del usuario", example = "prueba@example.com")
     @Email
     private String email;
-    @Schema(description = "Edad del usuario", example = "34")
+    @Schema(description = "telefono del usuario", example = "22345654634")
+    @NotNull
+    private String phone;
 
-    @Min(18)
-    @Max(99)
-    private int edad;
 
-    public String getNombre_usuario() {
-        return nombre_usuario;
+    public @NotNull @Size(min = 3, max = 20, message = "El nombre del usuario debe tener entre 3 y 20 caracteres") String getUsername() {
+        return username;
     }
 
-    public String getEmail() {
-        return email;
+    public void setUsername(@NotNull @Size(min = 3, max = 20, message = "El nombre del usuario debe tener entre 3 y 20 caracteres") String username) {
+        this.username = username;
     }
 
-    public String getContrasenia() {
+    public @NotNull @Size(min = 8, max = 20, message = "la contrasenia del usuario debe tener entre 8 y 20 caracteres") String getContrasenia() {
         return contrasenia;
     }
 
+    public void setContrasenia(@NotNull @Size(min = 8, max = 20, message = "la contrasenia del usuario debe tener entre 8 y 20 caracteres") String contrasenia) {
+        this.contrasenia = contrasenia;
+    }
 
-    public int getEdad() {
-        return edad;
+    public @NotNull String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(@NotNull String nombre) {
+        this.nombre = nombre;
+    }
+
+    public @Email String getEmail() {
+        return email;
+    }
+
+    public void setEmail(@Email String email) {
+        this.email = email;
+    }
+
+    public @NotNull String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(@NotNull String phone) {
+        this.phone = phone;
     }
 }

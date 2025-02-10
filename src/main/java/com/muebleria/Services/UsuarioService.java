@@ -9,6 +9,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -30,6 +31,13 @@ public class UsuarioService {
         return usuarioRepository.findAll().stream().
                 map(usuarioMapper::toModel).
                 collect(Collectors.toList());
+    }
+
+    public List<Usuario> listarPorUsername(String username) {
+        Optional<UsuarioEntity> usuarioOpt = usuarioRepository.findByUsername(username);
+        return usuarioOpt
+                .map(usuario -> Collections.singletonList(usuarioMapper.toModel(usuario))) // Si el usuario se encuentra, se mapea y se envuelve en una lista
+                .orElse(Collections.emptyList()); // Si no se encuentra, se devuelve una lista vacía
     }
 
     public Optional<Usuario> obtenerPorId(Integer id) {

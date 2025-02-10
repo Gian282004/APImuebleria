@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
-
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/usuarios")
 public class UsuarioController{
@@ -29,9 +29,11 @@ public class UsuarioController{
     }
 
     @GetMapping
-    public List<Usuario> listarUsuarios() {
-
-        return usuarioService.listarTodos();
+    public List<Usuario> listarUsuarios(@RequestParam(required = false) String username) {
+        if (username == null || username.isEmpty()) { // Verifica si username no fue enviado
+            return usuarioService.listarTodos(); // Devuelve todos los usuarios
+        }
+        return usuarioService.listarPorUsername(username); // Devuelve el usuario filtrado
     }
 
     @GetMapping("/{id}")
@@ -44,8 +46,10 @@ public class UsuarioController{
     }
 
     @PostMapping
-    public ResponseEntity<Usuario> crearUsuario( @Valid  @RequestBody UsuarioRequest usuario) {
+    public ResponseEntity<Usuario> crearUsuario( @Valid @RequestBody UsuarioRequest usuario) {
         try {
+            System.out.println("Nombre:" + usuario.getNombre());
+            System.out.println("Username:" + usuario.getUsername());
             Usuario usuarioGuardado = usuarioService.guardar(usuarioMapper.toModel(usuario));
             return ResponseEntity.status(HttpStatus.CREATED).body(usuarioGuardado);
         } catch (Exception e) {

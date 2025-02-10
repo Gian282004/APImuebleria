@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
 import org.springframework.format.annotation.NumberFormat;
-
+@Schema(description = "Payload para la creación de un usuario")
 public class MuebleRequest {
 
     @Schema(description = "Medida del mueble ", example = "50cm X 1.5mts")
