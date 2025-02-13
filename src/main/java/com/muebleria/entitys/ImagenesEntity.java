@@ -2,9 +2,6 @@ package com.muebleria.entitys;
 
 import jakarta.persistence.*;
 
-import java.sql.Date;
-import java.time.LocalDate;
-
 @Entity
 @Table (name = "imagenes")
 
@@ -15,10 +12,10 @@ public class ImagenesEntity {
 
 
     @ManyToOne
-    @JoinColumn(name = "id_producto", nullable = false)
+    @JoinColumn(name = "producto_id", nullable = false)
     private MuebleEntity mueble;
 
-    @Column ( name = "imagen",  nullable = false)
+    @Column ( name = "url",  nullable = false)
     private String imagenURL;
 
     ///constructor
@@ -27,6 +24,9 @@ public class ImagenesEntity {
         this.id_imagen = id_imagen;
         this.mueble = mueble;
         this.imagenURL = imagenURL;
+    }
+
+    public ImagenesEntity() {
     }
 
     public Integer getId_imagen() {
@@ -52,4 +52,6 @@ public class ImagenesEntity {
     public void setImagenURL(String imagenURL) {
         this.imagenURL = imagenURL;
     }
+
+
 }

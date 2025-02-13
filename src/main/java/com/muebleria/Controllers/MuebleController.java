@@ -42,8 +42,9 @@ public class MuebleController {
     }
 
     @PostMapping
-    public Mueble crearMueble(@Valid @RequestBody Mueble mueble) {
-        return muebleService.guardar(mueble);
+    public Mueble crearMueble(@Valid @RequestBody MuebleRequest mueblerequest) {
+           Mueble mueble=muebleService.guardar(muebleMapper.toModel(mueblerequest));
+           return mueble;
     }
 
     @PutMapping("/{id}")

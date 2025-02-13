@@ -1,25 +1,43 @@
 package com.muebleria.models;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 public class Mueble {
     private Integer id;
+    private String nombre;
     private String medida;
-    private double precio;
-    private Integer stock;
+    private BigDecimal precio;
     private String descripcion;
+    private List<Imagen> imagenes;
+    private List<Categoria> categorias;
 
-    public Mueble(Integer id, String  medida, double precio, Integer stock, String descripcion) {
+    public Mueble(Integer id, String nombre, String  medida, BigDecimal precio, String descripcion) {
         this.id = id;
+        this.nombre=nombre;
         this.medida = medida;
         this.precio = precio;
-        this.stock = stock;
         this.descripcion = descripcion;
     }
-    public Mueble( String medida, double precio, Integer stock, String descripcion) {
+    public Mueble(String nombre, String medida, BigDecimal precio, String descripcion,List<Imagen> imagenes, List<Categoria> categorias ) {
+        this.nombre=nombre;
         this.medida = medida;
         this.precio = precio;
-        this.stock = stock;
         this.descripcion = descripcion;
+        this.imagenes = imagenes;
+        this.categorias = categorias;
     }
+
+    public Mueble(Integer id, String nombre, String medida, BigDecimal precio, String descripcion, List<Imagen> imagenes, List<Categoria> categorias) {
+        this.id = id;
+        this.nombre = nombre;
+        this.medida = medida;
+        this.precio = precio;
+        this.descripcion = descripcion;
+        this.imagenes = imagenes;
+        this.categorias = categorias;
+    }
+
     public Mueble()
     {}
 
@@ -31,6 +49,14 @@ public class Mueble {
         this.id = id;
     }
 
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
     public String getMedida() {
         return medida;
     }
@@ -39,20 +65,12 @@ public class Mueble {
         this.medida = medida;
     }
 
-    public double getPrecio() {
+    public BigDecimal getPrecio() {
         return precio;
     }
 
-    public void setPrecio(double precio) {
+    public void setPrecio(BigDecimal precio) {
         this.precio = precio;
-    }
-
-    public Integer getStock() {
-        return stock;
-    }
-
-    public void setStock(Integer stock) {
-        this.stock = stock;
     }
 
     public String getDescripcion() {
@@ -63,14 +81,32 @@ public class Mueble {
         this.descripcion = descripcion;
     }
 
+    public List<Imagen> getImagenes() {
+        return imagenes;
+    }
+
+    public void setImagenes(List<Imagen> imagenes) {
+        this.imagenes = imagenes;
+    }
+
+    public List<Categoria> getCategorias() {
+        return categorias;
+    }
+
+    public void setCategorias(List<Categoria> categorias) {
+        this.categorias = categorias;
+    }
+
     @Override
     public String toString() {
         return "Mueble{" +
                 "id=" + id +
-                ", medida=" + medida +
+                ", nombre='" + nombre + '\'' +
+                ", medida='" + medida + '\'' +
                 ", precio=" + precio +
-                ", stock=" + stock +
                 ", descripcion='" + descripcion + '\'' +
+                ", imagenes=" + imagenes +
+                ", categorias=" + categorias +
                 '}';
     }
 }

@@ -3,7 +3,6 @@ package com.muebleria.Services;
 import com.muebleria.Mappers.UsuarioMapper;
 import com.muebleria.Repositories.UsuarioRepository;
 import com.muebleria.entitys.UsuarioEntity;
-import com.muebleria.entitys.VentaEntity;
 import com.muebleria.models.Usuario;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;

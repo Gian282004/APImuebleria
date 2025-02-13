@@ -10,19 +10,19 @@ public class MuebleMapper {
 
     public Mueble toModel(MuebleEntity muebleEntity)
     {
-        Mueble mueble=new Mueble((int) muebleEntity.getId_producto(), muebleEntity.getMedida(), muebleEntity.getPrecio(), muebleEntity.getStock(), muebleEntity.getDescripcion());
+        Mueble mueble=new Mueble(muebleEntity.getId(), muebleEntity.getNombre(), muebleEntity.getMedida(), muebleEntity.getPrecio(), muebleEntity.getDescripcion());
         return mueble;
     }
 
     public Mueble toModel(MuebleRequest muebleRequest)
     {
-        Mueble mueble=new Mueble(muebleRequest.getMedida(), muebleRequest.getPrecio(), muebleRequest.getStock(), muebleRequest.getDescripcion());
+        Mueble mueble=new Mueble(muebleRequest.getNombre(), muebleRequest.getMedida(), muebleRequest.getPrecio(), muebleRequest.getDescripcion(), muebleRequest.getImagenes(), muebleRequest.getCategorias());
         return mueble;
     }
 
     public MuebleEntity toEntity(Mueble mueble)
     {
-        MuebleEntity muebleEntity=new MuebleEntity(mueble.getId(), mueble.getMedida(), mueble.getPrecio(), mueble.getStock(), mueble.getDescripcion());
+        MuebleEntity muebleEntity=new MuebleEntity(mueble.getId(), mueble.getNombre(), mueble.getMedida(), mueble.getDescripcion(), mueble.getPrecio());
         return muebleEntity;
     }
 }
