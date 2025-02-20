@@ -2,6 +2,8 @@ package com.muebleria.entitys;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
+
 import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @Entity
@@ -17,14 +19,18 @@ public class ItemsEntity {
     private Integer quantity;
 
     @Column(name = "unit_price", nullable = false)
-    private Integer unitPrice;
+    private BigDecimal unitPrice;
 
     @Column(name = "total_price", nullable = false)
-    private Integer totalPrice;
+    private BigDecimal totalPrice;
+
+    @ManyToOne
+    @JoinColumn(name = "historial_id", nullable = false)
+    private HistorialEntity historial;
 
     public ItemsEntity() {}
 
-    public ItemsEntity(Integer id_item, String title, Integer quantity, Integer unitPrice, Integer totalPrice) {
+    public ItemsEntity(Integer id_item, String title, Integer quantity, BigDecimal unitPrice, BigDecimal totalPrice) {
        this.id_item=id_item;
         this.title = title;
         this.quantity = quantity;
@@ -56,19 +62,27 @@ public class ItemsEntity {
         this.quantity = quantity;
     }
 
-    public Integer getUnitPrice() {
+    public BigDecimal getUnitPrice() {
         return unitPrice;
     }
 
-    public void setUnitPrice(Integer unitPrice) {
+    public void setUnitPrice(BigDecimal unitPrice) {
         this.unitPrice = unitPrice;
     }
 
-    public Integer getTotalPrice() {
+    public BigDecimal getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(Integer totalPrice) {
+    public void setTotalPrice(BigDecimal totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public HistorialEntity getHistorial() {
+        return historial;
+    }
+
+    public void setHistorial(HistorialEntity historial) {
+        this.historial = historial;
     }
 }

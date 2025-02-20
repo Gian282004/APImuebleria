@@ -2,6 +2,8 @@ package com.muebleria.entitys;
 
 import jakarta.persistence.*;
 import java.util.Date;
+import java.util.List;
+
 @Entity
 @Table(name = "payer")
 public class PayerEntity {
@@ -18,6 +20,9 @@ public class PayerEntity {
 
     @Column(name = "phone", nullable = false)
     private String phone;
+
+    @OneToMany(mappedBy = "payer", cascade = CascadeType.ALL)
+    private List<HistorialEntity> historial;
 
     public PayerEntity() {}
 

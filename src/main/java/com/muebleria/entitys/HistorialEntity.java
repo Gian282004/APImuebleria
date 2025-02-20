@@ -1,7 +1,10 @@
 package com.muebleria.entitys;
 
+import com.muebleria.models.Item;
+import com.muebleria.models.Payer;
 import jakarta.persistence.*;
-import java.util.Date;
+
+import java.sql.Date;
 import java.util.List;
 
 @Entity
@@ -9,7 +12,8 @@ import java.util.List;
 public class HistorialEntity {
 
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
     @Column(name = "payment_id", nullable = false)
     private Long paymentId;
@@ -24,8 +28,8 @@ public class HistorialEntity {
     private String status;
 
     @Column(name = "date_approved")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date dateApproved;
+    @Temporal(TemporalType.DATE)
+    private java.sql.Date dateApproved;
 
     @Column(name = "payment_method")
     private String paymentMethod;
@@ -39,14 +43,29 @@ public class HistorialEntity {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "historial")
     private List<ItemsEntity> items;
 
-    @Embedded
+    @ManyToOne()
+    @JoinColumn(name = "id_payer", nullable = false)
     private PayerEntity payer;
+
+    public HistorialEntity(Integer id, Long paymentId, String userId, Integer amount, String status, java.sql.Date dateApproved, String paymentMethod, String paymentType, String dateCreated) {
+        this.id = id;
+        this.paymentId = paymentId;
+        this.userId = userId;
+        this.amount = amount;
+        this.status = status;
+        this.dateApproved = dateApproved;
+        this.paymentMethod = paymentMethod;
+        this.paymentType = paymentType;
+        this.dateCreated = dateCreated;
+    }
 
     public HistorialEntity() {}
 
+
+
     // Getters and Setters
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
+    public Integer getId() { return id; }
+    public void setId(Integer id) { this.id = id; }
 
     public Long getPaymentId() { return paymentId; }
     public void setPaymentId(Long paymentId) { this.paymentId = paymentId; }
@@ -60,7 +79,7 @@ public class HistorialEntity {
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
 
-    public Date getDateApproved() { return dateApproved; }
+    public java.sql.Date getDateApproved() { return dateApproved; }
     public void setDateApproved(Date dateApproved) { this.dateApproved = dateApproved; }
 
     public String getPaymentMethod() { return paymentMethod; }

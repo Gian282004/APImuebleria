@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/muebles")
-@CrossOrigin(origins = "*") // Permitir solicitudes desde cualquier origen (configura según tus necesidades)
+@CrossOrigin(origins = "*") // Permitir solicitudes desde El front En pruebas (configurar según  necesidades)
 public class MuebleController {
 
     @Autowired

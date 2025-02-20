@@ -39,7 +39,9 @@ public class UsuarioController{
     @GetMapping("/{id}")
     public Optional<Usuario> obtenerUsuarioPorId(@PathVariable Integer id) {
         //Esto deberia estar dentro de un if que confirme que exista, abajo se explica porque no se puede
-        return  usuarioService.obtenerPorId(id);
+        Optional<Usuario> prueba= usuarioService.obtenerPorId(id);
+        System.out.println("Hola" +prueba);
+        return prueba;
 
 
         //Aca se deberia devolver un not found pero se necesita que sea de tipo ResponseEntity y es Optional
