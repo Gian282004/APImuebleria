@@ -5,8 +5,11 @@ import com.muebleria.Mappers.MuebleMapper;
 import com.muebleria.Services.MuebleService;
 
 import com.muebleria.models.Mueble;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -32,7 +35,26 @@ public class MuebleController {
         return muebleService.listarTodos();
     }
 
+
     @GetMapping("/{id}")
+    public ResponseEntity<Mueble> obtenerMueblePorId(@PathVariable Integer id) {
+
+        Optional<Mueble> optionalMueble = muebleService.obtenerPorId(id);
+
+        if (optionalMueble.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        Mueble mueble = optionalMueble.get();
+
+        // Forzar la carga de imágenes y categoría
+        Hibernate.initialize(mueble.getImagenes());
+        Hibernate.initialize(mueble.getCategorias());
+
+        return ResponseEntity.ok(mueble);
+    }
+
+   /* @GetMapping("/{id}")
     public Optional<Mueble> obtenerMueblePorId(@PathVariable Integer id) {
         //Esto deberia estar dentro de un if que confirme que exista, abajo se explica porque no se puede
         return  muebleService.obtenerPorId(id);
@@ -40,11 +62,31 @@ public class MuebleController {
 
         //Aca se deberia devolver un not found pero se necesita que sea de tipo ResponseEntity y es Optional
     }
+*/
 
     @PostMapping
-    public Mueble crearMueble(@Valid @RequestBody MuebleRequest mueblerequest) {
-           Mueble mueble=muebleService.guardar(muebleMapper.toModel(mueblerequest));
-           return mueble;
+    public ResponseEntity<Mueble> crearMueble(@Valid @RequestBody MuebleRequest mueblerequest) {
+        try {
+            Mueble mueble = muebleService.guardar(muebleMapper.toModel(mueblerequest));
+            return ResponseEntity.ok(mueble);
+        } catch (Exception e) {
+            // Manejo de la excepción y respuesta adecuada
+            e.printStackTrace();  // Esto debería ir en un log real en producción
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+
+
+    @PostMapping("/{idMueble}/imagenes")
+    public ResponseEntity<String> asociarImagen(@PathVariable Integer idMueble,@RequestBody List<String> urlsImagenes) {
+        try {
+            // Llamar al servicio para asociar la imagen con el mueble
+            muebleService.asociarImagenesAMueble(urlsImagenes, idMueble);
+            return ResponseEntity.ok("Imagen asociada al mueble con éxito");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error al asociar la imagen al mueble");
+        }
     }
 
     @PutMapping("/{id}")

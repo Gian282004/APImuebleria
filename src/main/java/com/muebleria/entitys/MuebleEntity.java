@@ -2,6 +2,8 @@ package com.muebleria.entitys;
 
 import jakarta.persistence.*;
 import jakarta.persistence.criteria.CriteriaBuilder;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -34,8 +36,8 @@ public class MuebleEntity {
     )
     private List<CategoriaEntity> categorias = new ArrayList<>();
 
-    @OneToMany(mappedBy = "mueble", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ImagenesEntity> imagenes = new ArrayList<>();  // Relación agregada
+    @OneToMany(mappedBy = "mueble", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<ImagenesEntity> imagenes = new ArrayList<>();
 
     public MuebleEntity(Integer id, String nombre, String medida, String descripcion, BigDecimal precio) {
         this.id = id;
@@ -43,7 +45,10 @@ public class MuebleEntity {
         this.medida = medida;
         this.descripcion = descripcion;
         this.precio = precio;
+
     }
+
+
 
     public MuebleEntity() {}
 

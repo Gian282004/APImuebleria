@@ -7,17 +7,24 @@ import org.springframework.stereotype.Component;
 @Component
 public class ImagenMapper {
 
-    public Imagen toModel(ImagenesEntity imagenesEntity) {
-        if (imagenesEntity == null) {
-            return null;
-        }
-        return new Imagen(imagenesEntity.getId_imagen(), imagenesEntity.getImagenURL());
-    }
 
-    public ImagenesEntity toEntity(Imagen imagen) {
-        if (imagen == null) {
-            return null;
+        // Convierte ImagenesEntity a modelo Imagen
+        public Imagen toModel(ImagenesEntity entity) {
+            if (entity == null) {
+                return null;
+            }
+
+            Imagen imagen = new Imagen();
+            imagen.setUrl(entity.getImagenURL()); // Asegúrate de que la URL se esté asignando correctamente
+            return imagen;
         }
-        return new ImagenesEntity(imagen.getId(), null, imagen.getUrl()); // El mueble se asignará en la lógica de persistencia
+
+        // Convierte el modelo Imagen a ImagenesEntity para persistencia
+        public ImagenesEntity toEntity(Imagen imagen) {
+            if (imagen == null) {
+                return null;
+            }
+            // El campo 'mueble' se asignará en la lógica de persistencia
+            return new ImagenesEntity(imagen.getId(), null, imagen.getUrl());
+        }
     }
-}

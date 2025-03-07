@@ -10,13 +10,13 @@ public class MuebleMapper {
 
     public Mueble toModel(MuebleEntity muebleEntity)
     {
-        Mueble mueble=new Mueble(muebleEntity.getId(), muebleEntity.getNombre(), muebleEntity.getMedida(), muebleEntity.getPrecio(), muebleEntity.getDescripcion());
+        Mueble mueble=new Mueble(muebleEntity.getNombre(), muebleEntity.getMedida(), muebleEntity.getPrecio(), muebleEntity.getDescripcion());
         return mueble;
     }
 
     public Mueble toModel(MuebleRequest muebleRequest)
     {
-        Mueble mueble=new Mueble(muebleRequest.getNombre(), muebleRequest.getMedida(), muebleRequest.getPrecio(), muebleRequest.getDescripcion(), muebleRequest.getImagenes(), muebleRequest.getCategorias());
+        Mueble mueble=new Mueble(muebleRequest.getNombre(), muebleRequest.getMedida(), muebleRequest.getPrecio(), muebleRequest.getDescripcion());
         return mueble;
     }
 

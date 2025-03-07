@@ -8,6 +8,7 @@ public class Imagen {
         this.id = id;
         this.url = url;
     }
+    public  Imagen(){};
 
     public Imagen(String url) {
         this.url = url;

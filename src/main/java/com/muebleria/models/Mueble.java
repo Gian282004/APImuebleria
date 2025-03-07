@@ -9,34 +9,22 @@ public class Mueble {
     private String medida;
     private BigDecimal precio;
     private String descripcion;
+
+
     private List<Imagen> imagenes;
+
     private List<Categoria> categorias;
 
-    public Mueble(Integer id, String nombre, String  medida, BigDecimal precio, String descripcion) {
+    public Mueble(String nombre, String  medida, BigDecimal precio, String descripcion) {
         this.id = id;
         this.nombre=nombre;
         this.medida = medida;
         this.precio = precio;
         this.descripcion = descripcion;
-    }
-    public Mueble(String nombre, String medida, BigDecimal precio, String descripcion,List<Imagen> imagenes, List<Categoria> categorias ) {
-        this.nombre=nombre;
-        this.medida = medida;
-        this.precio = precio;
-        this.descripcion = descripcion;
-        this.imagenes = imagenes;
-        this.categorias = categorias;
     }
 
-    public Mueble(Integer id, String nombre, String medida, BigDecimal precio, String descripcion, List<Imagen> imagenes, List<Categoria> categorias) {
-        this.id = id;
-        this.nombre = nombre;
-        this.medida = medida;
-        this.precio = precio;
-        this.descripcion = descripcion;
-        this.imagenes = imagenes;
-        this.categorias = categorias;
-    }
+
+
 
     public Mueble()
     {}

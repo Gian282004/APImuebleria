@@ -2,6 +2,7 @@ package com.muebleria.entitys;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -14,8 +15,8 @@ public class CategoriaEntity {
     @Column ( name = "nombre",  nullable = false)
     private String nombre;
 
-    @ManyToMany(mappedBy = "categorias")  // La relación ya se maneja en MuebleEntity
-    private List<MuebleEntity> muebles;
+    @ManyToMany(mappedBy = "categorias")
+    private List<MuebleEntity> muebles = new ArrayList<>();
 
     public CategoriaEntity(Integer id, String nombre) {
         this.id = id;

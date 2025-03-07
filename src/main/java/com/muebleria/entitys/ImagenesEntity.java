@@ -11,8 +11,8 @@ public class ImagenesEntity {
     private Integer id_imagen;
 
 
-    @ManyToOne
-    @JoinColumn(name = "producto_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "mueble_id", nullable = false)
     private MuebleEntity mueble;
 
     @Column ( name = "url",  nullable = false)
