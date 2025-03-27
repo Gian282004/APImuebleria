@@ -40,7 +40,6 @@ public class UsuarioController{
     public Optional<Usuario> obtenerUsuarioPorId(@PathVariable Integer id) {
         //Esto deberia estar dentro de un if que confirme que exista, abajo se explica porque no se puede
         Optional<Usuario> prueba= usuarioService.obtenerPorId(id);
-        System.out.println("Hola" +prueba);
         return prueba;
 
 
@@ -50,8 +49,6 @@ public class UsuarioController{
     @PostMapping
     public ResponseEntity<Usuario> crearUsuario( @Valid @RequestBody UsuarioRequest usuario) {
         try {
-            System.out.println("Nombre:" + usuario.getNombre());
-            System.out.println("Username:" + usuario.getUsername());
             Usuario usuarioGuardado = usuarioService.guardar(usuarioMapper.toModel(usuario));
             return ResponseEntity.status(HttpStatus.CREATED).body(usuarioGuardado);
         } catch (Exception e) {

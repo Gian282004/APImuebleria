@@ -4,6 +4,8 @@ import com.muebleria.DTO.MuebleRequest;
 import com.muebleria.Mappers.MuebleMapper;
 import com.muebleria.Services.MuebleService;
 
+import com.muebleria.models.Categoria;
+import com.muebleria.models.Imagen;
 import com.muebleria.models.Mueble;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -78,16 +80,7 @@ public class MuebleController {
 
 
 
-    @PostMapping("/{idMueble}/imagenes")
-    public ResponseEntity<String> asociarImagen(@PathVariable Integer idMueble,@RequestBody List<String> urlsImagenes) {
-        try {
-            // Llamar al servicio para asociar la imagen con el mueble
-            muebleService.asociarImagenesAMueble(urlsImagenes, idMueble);
-            return ResponseEntity.ok("Imagen asociada al mueble con éxito");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error al asociar la imagen al mueble");
-        }
-    }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<Mueble> actualizarMueble(@PathVariable Integer id, @Valid @RequestBody MuebleRequest detallesMueble) {

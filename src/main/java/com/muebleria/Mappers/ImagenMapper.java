@@ -15,7 +15,8 @@ public class ImagenMapper {
             }
 
             Imagen imagen = new Imagen();
-            imagen.setUrl(entity.getImagenURL()); // Asegúrate de que la URL se esté asignando correctamente
+            imagen.setId(entity.getId_imagen());  // 🔥 Agregar esta línea para mapear el ID
+            imagen.setUrl(entity.getImagenURL());
             return imagen;
         }
 

@@ -28,7 +28,7 @@ public class MuebleEntity {
     @Column(nullable = false)
     private BigDecimal precio;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "productos_categorias",
             joinColumns = @JoinColumn(name = "producto_id"),

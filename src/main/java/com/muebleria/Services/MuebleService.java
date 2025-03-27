@@ -42,8 +42,18 @@ public class MuebleService {
     }
 
     public List<Mueble> listarTodos() {
-        return muebleRepository.findAll().stream()
-                .map(muebleMapper::toModel).collect(Collectors.toList());
+        List<MuebleEntity> mueblesEntity = muebleRepository.findAll();
+
+        // Asegurarse de que las relaciones se carguen explícitamente
+        for (MuebleEntity muebleEntity : mueblesEntity) {
+            Hibernate.initialize(muebleEntity.getCategorias());  // Cargar las categorías
+            Hibernate.initialize(muebleEntity.getImagenes());    // Cargar las imágenes
+        }
+
+        // Ahora las categorías e imágenes están completamente cargadas
+        return mueblesEntity.stream()
+                .map(muebleMapper::toModel)
+                .collect(Collectors.toList());
     }
     @Transactional
     public Optional<Mueble> obtenerPorId(Integer id) {
@@ -56,30 +66,31 @@ public class MuebleService {
 
         return entity.map(muebleMapper::toModel);
     }
-
+    @Transactional
     public Mueble guardar(Mueble mueble) {
         // Paso 1: Convertir DTO a entidad Mueble
         MuebleEntity muebleEntity = muebleMapper.toEntity(mueble);
 
         // Paso 2: Guardar el mueble en la base de datos
         MuebleEntity savedMueble = muebleRepository.save(muebleEntity);
-
-        // Paso 3: Asignar categorías e imágenes si están presentes
+        System.out.println("categorias:" +mueble);
+        // Paso 3: Asignar categorías e imágenes
         if (mueble.getCategorias() != null) {
             asignarCategorias(mueble.getCategorias(), savedMueble);
         }
         if (mueble.getImagenes() != null) {
             asignarImagenes(mueble.getImagenes(), savedMueble);
+            muebleRepository.save(savedMueble);
         }
 
-        // Recargar el mueble con todas sus relaciones utilizando EntityGraph
+
+        // Recargar el mueble con todas sus relaciones
         MuebleEntity updatedMueble = muebleRepository.findById(savedMueble.getId())
                 .orElseThrow(() -> new RuntimeException("Mueble no encontrado"));
-
+        Hibernate.initialize(updatedMueble.getImagenes());
         // Mapear la entidad a modelo
         Mueble muebleModel = muebleMapper.toModel(updatedMueble);
 
-        // Mapear y asignar categorías e imágenes
         muebleModel.setCategorias(updatedMueble.getCategorias().stream()
                 .map(categoriaMapper::toModel)
                 .collect(Collectors.toList()));
@@ -87,48 +98,48 @@ public class MuebleService {
         muebleModel.setImagenes(updatedMueble.getImagenes().stream()
                 .map(imagenMapper::toModel)
                 .collect(Collectors.toList()));
-
+        // Retornar el modelo completo con relaciones
+        muebleModel.setId(updatedMueble.getId());
         return muebleModel;
+    }
+    private void asignarCategorias(List<Categoria> categoriasDTO, MuebleEntity mueble) {
+        if (mueble.getCategorias() == null) {
+            mueble.setCategorias(new ArrayList<>()); // Asegurar que la lista no sea nula
+        }
+
+        for (Categoria categoriaDTO : categoriasDTO) {
+            CategoriaEntity categoria = categoriaRepository.findByNombre(categoriaDTO.getNombre());
+
+            if (categoria == null) {
+                categoria = new CategoriaEntity();
+                categoria.setNombre(categoriaDTO.getNombre());
+                categoria = categoriaRepository.save(categoria);
+            }
+
+            System.out.println("Asignando categoría: " + categoria.getNombre()); // Debug log
+            mueble.getCategorias().add(categoria);
+        }
+
+        System.out.println("Categorías asignadas al mueble: " + mueble.getCategorias());
     }
 
     private void asignarImagenes(List<Imagen> imagenURLs, MuebleEntity mueble) {
+        if (mueble.getImagenes() == null) {
+            mueble.setImagenes(new ArrayList<>()); // Inicializar si es null
+        }
+
         for (Imagen imagen : imagenURLs) {
             ImagenesEntity imagenEntity = new ImagenesEntity();
             imagenEntity.setImagenURL(imagen.getUrl());
-            imagenEntity.setMueble(mueble);  // Relacionar la imagen con el mueble
+            imagenEntity.setMueble(mueble);  // Asegurar la relación bidireccional
+
             mueble.getImagenes().add(imagenEntity);
             imagenRepository.save(imagenEntity);
         }
     }
 
-    @Transactional
-    public void asociarImagenesAMueble(List<String> urlsImagenes, Integer idMueble) {
-        MuebleEntity mueble = muebleRepository.findById(idMueble)
-                .orElseThrow(() -> new RuntimeException("Mueble no encontrado"));
-
-        List<ImagenesEntity> imagenesEntities = new ArrayList<>();
-
-        for (String url : urlsImagenes) {
-            ImagenesEntity imagenEntity = new ImagenesEntity();
-            imagenEntity.setImagenURL(url);
-            imagenEntity.setMueble(mueble);
-            imagenesEntities.add(imagenEntity);
-        }
-
-        imagenRepository.saveAll(imagenesEntities);
-        mueble.getImagenes().addAll(imagenesEntities); // Asociar a la lista del mueble
-    }
-
     public void eliminar(Integer id) {
         muebleRepository.deleteById(id);
-    }
-
-    // Método para asignar categorías
-    private void asignarCategorias(List<Categoria> categorias, MuebleEntity mueble) {
-        for (Categoria categoria : categorias) {
-            // Supongo que el proceso de asignación de categorías es similar al de las imágenes
-            // Implementa la lógica aquí para asociar la categoría con el mueble
-        }
     }
 }
 
