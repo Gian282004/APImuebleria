@@ -86,7 +86,8 @@ public class MuebleController {
     public ResponseEntity<Mueble> actualizarMueble(@PathVariable Integer id, @Valid @RequestBody MuebleRequest detallesMueble) {
         Optional<Mueble> muebleOpt = muebleService.obtenerPorId(id);
         if (muebleOpt.isPresent()) {
-            Mueble mueble = muebleMapper.toModel(detallesMueble);
+            Mueble mueble=muebleOpt.get();
+             muebleMapper.UpdateMueble(detallesMueble, mueble);
             muebleService.guardar(mueble);
             return ResponseEntity.ok(mueble);
         } else {

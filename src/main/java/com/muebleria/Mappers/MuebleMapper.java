@@ -20,6 +20,16 @@ public class MuebleMapper {
         this.imagenMapper=imagenMapper;
     }
 
+    public void UpdateMueble(MuebleRequest DTO, Mueble mueble)
+    {
+        mueble.setNombre(DTO.getNombre());
+        mueble.setDescripcion(DTO.getDescripcion());
+        mueble.setMedida(DTO.getMedida());
+        mueble.setPrecio(DTO.getPrecio());
+        mueble.setImagenes(DTO.getImagenes());
+        mueble.setCategorias(DTO.getCategorias());
+    }
+
     public Mueble toModel(MuebleEntity entity) {
         if (entity == null) {
             return null;
